@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bystrof-isis4
+spec:
+  containers:
+    - name: isis4
+      image: bystrof/isis4
+      ports:
+        - containerPort: 3000

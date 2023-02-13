@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bystrof-isis4-dep
+  name: bystrof-isis5-dep
   labels:
-    app: isis4
+    app: isis5
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: isis4
+      app: isis5
   template:
     metadata:
       labels:
-        app: isis4
+        app: isis5
     spec:
       containers:
-        - name: isis4
-          image: bystrof/isis4
+        - name: isis5
+          image: bystrof/isis5
           ports:
             - containerPort: 3000
           resources:

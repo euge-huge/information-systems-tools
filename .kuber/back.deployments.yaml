@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bystrof-isis6-nestjs-dep
+  labels:
+    app: isis6-nestjs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: isis6-nestjs
+  template:
+    metadata:
+      labels:
+        app: isis6-nestjs
+    spec:
+      containers:
+        - name: isis6-nestjs
+          image: bystrof/isis6
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: isis-6-config
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 20m
+            limits:
+              memory: 128Mi
+              cpu: 40m
+          readinessProbe:
+            httpGet:
+              path: '/car'
+              port: 3000
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 3

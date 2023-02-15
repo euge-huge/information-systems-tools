@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bystrof-isis6-db-dep
+  labels:
+    app: isis6-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: isis6-db
+  template:
+    metadata:
+      labels:
+        app: isis6-db
+    spec:
+      containers:
+        - name: isis6-db
+          image: mysql:8.0
+          envFrom:
+            - configMapRef:
+                name: isis-6-config
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysqldb
+      volumes:
+        - name: mysqldb
+          persistentVolumeClaim:
+            claimName: db-claim

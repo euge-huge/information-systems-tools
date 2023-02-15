@@ -6,26 +6,21 @@ import { AppController } from './app.controller';
 
 import { AppService } from './app.service';
 import { CarModule } from '../car/car.module';
+import * as process from 'process';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => {
-        return {
-          type: 'mysql',
-          host: configService.get('MYSQL_HOST'),
-          port: configService.get('MYSQL_PORT'),
-          username: configService.get('MYSQL_USER'),
-          password: configService.get('MYSQL_PASSWORD'),
-          database: configService.get('MYSQL_DATABASE'),
-          entities: ['dist/**/*.entity{.ts,.js}'],
-          logging: false,
-          synchronize: true
-        };
-      },
-      inject: [ConfigService]
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: process.env.MYSQL_HOST || '127.0.0.1',
+      port: +process.env.MYSQL_HOST || 3306,
+      username: process.env.MYSQL_USER || 'db',
+      password: process.env.MYSQL_USER || 'db',
+      database: process.env.MYSQL_DATABASE || 'db',
+      entities: ['dist/**/*.entity{.ts,.js}'],
+      logging: false,
+      synchronize: true
     }),
     CarModule
   ],

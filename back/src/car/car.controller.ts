@@ -24,7 +24,13 @@ export class CarController {
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @Get()
   get() {
-    return this.carService.getAll();
+    const delay: number[] = [0, 5000];
+
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(this.carService.getAll());
+      }, delay[Math.floor(Math.random() * 2) - 1]);
+    });
   }
 
   @ApiOperation({ summary: 'Получение машины' })
